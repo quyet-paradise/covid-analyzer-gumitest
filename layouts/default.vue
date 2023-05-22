@@ -74,7 +74,7 @@ export default {
         }
       ],
       miniVariant: false,
-      title: 'Covid-19 Analyzer'
+      title: 'Covid-19 Analyzer (API is not working now!)'
     }
   }
 }

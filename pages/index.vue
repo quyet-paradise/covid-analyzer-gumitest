@@ -159,23 +159,75 @@ export default {
         { text: 'Death cases', value: 'TotalDeaths' },
         { text: 'Recovered cases', value: 'TotalRecovered' }
       ],
-      globalData: {},
-      countriesData: [],
+      // hard data number because API isn't working
+      globalData: {
+        TotalConfirmed: 675493807,
+        NewConfirmed: 221028,
+        TotalDeaths: 6873340,
+        NewDeaths: 1763,
+        TotalRecovered: 0,
+        NewRecovered: 0
+      },
+      countriesData: [
+        {
+          Country: 'Vietnam',
+          TotalConfirmed: 11526926,
+          TotalDeaths: 43186,
+          TotalRecovered: 0
+        },
+        {
+          Country: 'American',
+          TotalConfirmed: 103510435,
+          TotalDeaths: 1120848,
+          TotalRecovered: 0
+        },
+        {
+          Country: 'China',
+          TotalConfirmed: 4903524,
+          TotalDeaths: 101051,
+          TotalRecovered: 0
+        }
+      ],
+      // end
       loading: false,
       hasDataChart: false,
+      // hard data number because API isn't working
       countryData: {
         name: {
-          common: ''
+          common: 'Vietnam'
         }, 
         flags: {
-          png: ''
+          png: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1024px-Flag_of_Vietnam.svg.png'
         },
-        population: 0,
-        capital: [],
-        region: '',
-        subregion: ''
+        population: 99856590,
+        capital: ['Hanoi'],
+        region: 'Southeast Asia',
+        subregion: 'Asia'
       },
-      covidData: [],
+      covidData: [
+        {
+          Date: '01-03-2023',
+          Confirmed: 1200,
+          Deaths: 11,
+          Recovered: 1,
+          Active: 4
+        },
+        {
+          Date: '02-03-2023',
+          Confirmed: 1301,
+          Deaths: 21,
+          Recovered: 3,
+          Active: 6
+        },
+        {
+          Date: '03-03-2023',
+          Confirmed: 1365,
+          Deaths: 22,
+          Recovered: 5,
+          Active: 19
+        }
+      ],
+      // end
       dialog: false,
       loadingDialog: false,
       dataSelectedCountry: {
@@ -220,27 +272,27 @@ export default {
     }
   },
   async created() {
-    this.loading = true;
-    const response = await fetch("https://api.covid19api.com/summary");
-    const data = await response.json();
-    this.globalData = data.Global;
-    this.countriesData = data.Countries;
-    this.loading = false;
+    // this.loading = true;
+    // const response = await fetch("https://api.covid19api.com/summary");
+    // const data = await response.json();
+    // this.globalData = data.Global;
+    // this.countriesData = data.Countries;
+    // this.loading = false;
   },
   methods: {
     async handleClickRow(value) {
       this.dialog = true;
       this.loadingDialog = true;
       this.resetDataSelectedCountry();
-      const countryDataResponse = await fetch("https://restcountries.com/v3.1/alpha/" + value.CountryCode);
-      const covidDataResponse = await fetch("https://api.covid19api.com/country/" + value.Slug);
-      const countryData = await countryDataResponse.json();
-      const covidData = await covidDataResponse.json();
-      this.countryData = countryData[0];
+      // const countryDataResponse = await fetch("https://restcountries.com/v3.1/alpha/" + value.CountryCode);
+      // const covidDataResponse = await fetch("https://api.covid19api.com/country/" + value.Slug);
+      // const countryData = await countryDataResponse.json();
+      // const covidData = await covidDataResponse.json();
+      // this.countryData = countryData[0];
 
-      let covidDataSize = covidData.length > 0 ? covidData.length : 0;
-      this.covidData = covidDataSize > 0 ? covidData.slice(covidDataSize - 14) : [];
-      this.hasDataChart = covidDataSize > 0 ? true : false;
+      // let covidDataSize = covidData.length > 0 ? covidData.length : 0;
+      // this.covidData = covidDataSize > 0 ? covidData.slice(covidDataSize - 14) : [];
+      this.hasDataChart = true;
       for(let i=0; i<this.covidData.length; i++) {
         this.dataSelectedCountry.chartdata.datasets[0].data.push(this.covidData[i].Confirmed);
         this.dataSelectedCountry.chartdata.datasets[1].data.push(this.covidData[i].Deaths);
